@@ -10,7 +10,7 @@ pushd $CERT_FOLDER
 openssl ecparam -name prime256v1 > prime256v1.pem
 openssl req -x509 -nodes -new -sha256 -days 1024 -newkey "$CA_KEY_TYPE" -keyout RootCA.key.pem -out RootCA.pem -subj "$CA_CRT_SUBJ"
 
-for i in {1..4} ; do for OU in client haproxy ; do
+for i in {0..10} ; do for OU in client haproxy ; do
     echo $CLIENT
     CLIENT="${OU}${i}"
     EE_CRT_SUBJ="/O=jskw/OU=${OU}/CN=${CLIENT}.local"
