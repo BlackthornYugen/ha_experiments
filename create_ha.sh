@@ -34,8 +34,8 @@ sleep 5;
 for i in {1..4} ; do
     docker exec -it "haproxy${i}" ps -a
     curl \
-        --cacert RootCA.pem \
-        --cert "client${i}.pem" --silent --fail --show-error \
+        --cacert "tls/RootCA.pem" \
+        --cert "tls/client${i}.pem" --silent --fail --show-error \
             "http://localhost:$((  i % 4  + 80  ))/get" \
             "https://localhost:$(( i % 4  + 443 ))/get" | jq
 done

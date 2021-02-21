@@ -3,6 +3,10 @@ set -e
 CA_CRT_SUBJ="${CA_CRT_SUBJ:-/O=jskw/OU=mutual-auth/CN=jskw-test-root}"
 CA_KEY_TYPE="${CA_KEY_TYPE:-ec:prime256v1.pem}"
 EE_KEY_TYPE="${EE_KEY_TYPE:-${CA_KEY_TYPE}}"
+CERT_FOLDER="${CERT_FOLDER:-tls}"
+mkdir -vp $CERT_FOLDER
+pushd $CERT_FOLDER
+
 openssl ecparam -name prime256v1 > prime256v1.pem
 openssl req -x509 -nodes -new -sha256 -days 1024 -newkey "$CA_KEY_TYPE" -keyout RootCA.key.pem -out RootCA.pem -subj "$CA_CRT_SUBJ"
 
@@ -43,4 +47,5 @@ done
 done
 
 openssl verify -verbose -CAfile RootCA.pem RootCA.pem *.crt.pem
+popd
 # Make a pem file that openssl s_server or haproxy or whatever could use
